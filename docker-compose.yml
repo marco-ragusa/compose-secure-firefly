@@ -1,0 +1,46 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./root/etc/nginx/conf.d:/etc/nginx/conf.d
+      - ./root/etc/nginx/certs:/etc/nginx/certs
+      - ./root/etc/apache2:/etc/apache2
+
+  mariadb:
+    image: mariadb
+    restart: always
+    volumes:
+      - ./root/var/lib/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=SomeStrongPass
+      - MYSQL_USER=firefly
+      - MYSQL_PASSWORD=secret_firefly_password
+      - MYSQL_DATABASE=firefly
+
+  firefly:
+    image: fireflyiii/core:latest
+    restart: always
+    ports:
+      - 8080
+    volumes:
+      - ./root/var/www/html/storage/upload:/var/www/html/storage/upload
+    environment:
+      - DEFAULT_LANGUAGE=it_IT
+      - DEFAULT_LOCALE=equal
+      - TZ=Europe/Rome
+      - DB_CONNECTION=mysql
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_DATABASE=firefly
+      - DB_USERNAME=firefly
+      - DB_PASSWORD=secret_firefly_password
+      - APP_KEY=SomeRandomStringOf32CharsExactly
+      - TRUSTED_PROXIES=**
+    depends_on:
+      - nginx
+      - mariadb
