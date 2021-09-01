@@ -7,7 +7,7 @@ DB_CONTAINER=firefly-iii_mariadb_1
 mkdir -p $BCK_PATH
 find $BCK_PATH/ -type f -mtime +90 -name 'backup_*' -exec rm {} \;
 find $BCK_PATH/ -type f -mtime +7 -name 'backup_*' -exec gzip -9 {} \;
-docker exec -it $DB_CONTAINER mysqldump -u root --password=$DB_PASSWORD firefly > $BCK_PATH/backup_$(date +"%Y%m%d").sql
+docker exec -i $DB_CONTAINER mysqldump -u root --password=$DB_PASSWORD firefly > $BCK_PATH/backup_$(date +"%Y%m%d").sql
 
 
 # Restore
