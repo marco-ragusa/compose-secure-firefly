@@ -49,4 +49,4 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup nginx mariadb fireflyiii/core
+    command: --cleanup # add names of the containers you want to update
