@@ -4,7 +4,7 @@ services:
     image: nginx:latest
     restart: unless-stopped
     ports:
-      - 80:80
+      - "80:80"
       - 443:443
     volumes:
       - ./root/etc/nginx/conf.d:/etc/nginx/conf.d
@@ -26,7 +26,7 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: unless-stopped
     ports:
-      - 80
+      - "80"
     environment:
       - PMA_HOST=mariadb
       - PMA_ABSOLUTE_URI=http://127.0.0.1/phpmyadmin/
@@ -37,7 +37,7 @@ services:
     image: fireflyiii/core:latest
     restart: unless-stopped
     ports:
-      - 8080
+      - "8080"
     volumes:
       - ./root/var/www/html/storage/upload:/var/www/html/storage/upload
     environment:
@@ -50,11 +50,21 @@ services:
       - DB_DATABASE=firefly
       - DB_USERNAME=firefly
       - DB_PASSWORD=secret_firefly_password
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=email
+      - MAIL_PORT=25
+      - MAIL_FROM=info@fireflyiii.local
       - APP_KEY=SomeRandomStringOf32CharsExactly
       - TRUSTED_PROXIES=**
     depends_on:
       - nginx
       - mariadb
+
+  smtp:
+    image: bytemark/smtp
+    restart: unless-stopped
+    ports:
+      - "25"
 
   watchtower:
     image: containrrr/watchtower
