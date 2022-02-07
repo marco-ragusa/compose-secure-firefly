@@ -22,6 +22,17 @@ services:
       - MYSQL_PASSWORD=secret_firefly_password
       - MYSQL_DATABASE=firefly
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 80
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_ABSOLUTE_URI=http://127.0.0.1/phpmyadmin/
+    depends_on:
+      - mariadb
+
   firefly:
     image: fireflyiii/core:latest
     restart: unless-stopped
