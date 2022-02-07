@@ -51,7 +51,7 @@ services:
       - DB_USERNAME=firefly
       - DB_PASSWORD=secret_firefly_password
       - MAIL_MAILER=smtp
-      - MAIL_HOST=email
+      - MAIL_HOST=smtp-server
       - MAIL_PORT=25
       - MAIL_FROM=info@fireflyiii.local
       - APP_KEY=SomeRandomStringOf32CharsExactly
@@ -60,7 +60,7 @@ services:
       - nginx
       - mariadb
 
-  smtp:
+  smtp-server:
     image: bytemark/smtp
     restart: unless-stopped
     ports:
