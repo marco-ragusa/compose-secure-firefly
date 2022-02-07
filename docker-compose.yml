@@ -56,8 +56,10 @@ services:
       - nginx
       - mariadb
 
-  firefly-updater:
+  watchtower:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup # add names of the containers you want to update
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=3600
