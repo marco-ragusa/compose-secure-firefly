@@ -53,7 +53,7 @@ services:
       - MAIL_MAILER=smtp
       - MAIL_HOST=smtp-server
       - MAIL_PORT=25
-      - MAIL_FROM=info@fireflyiii.local
+      - MAIL_FROM=info@mail.local
       - APP_KEY=SomeRandomStringOf32CharsExactly
       - TRUSTED_PROXIES=**
     depends_on:
@@ -65,6 +65,11 @@ services:
     restart: unless-stopped
     ports:
       - "25"
+    environment:
+      - RELAY_HOST=smtp.mail.local
+      - RELAY_PORT=587
+      - RELAY_USERNAME=info@mail.local
+      - RELAY_PASSWORD=MailPassword
 
   watchtower:
     image: containrrr/watchtower
